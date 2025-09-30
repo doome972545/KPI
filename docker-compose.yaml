@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: kpi-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: kpidb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    image: doome972545/kpis-backend:latest
+    container_name: kpi-backend
+    restart: always
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432/kpidb
+      JWT_SECRET: 9d5e8d1171105685eff07126acd02404fa7599c782f620b7f3faa9e9944ff8f0
+      NODE_ENV: production
+      EMAIL_PASS: bnlm bngr mdtv nayy
+      EMAIL_USER: domedoome9725451@gmail.com
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  frontend:
+    image: doome972545/kpis-frontend:latest
+    container_name: kpi-frontend
+    restart: always
+    environment:
+      - VITE_API_BASE=http://backend:3000/api/v1
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+  nginx:
+    image: nginx:alpine
+    container_name: kpi-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  pgdata:

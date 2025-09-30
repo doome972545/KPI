@@ -9,6 +9,17 @@ import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger";
 import YAML from "yamljs";
 import { initialData } from "./config/initialData";
+import os from "os";
+
+const interfaces = os.networkInterfaces();
+
+for (const name in interfaces) {
+  for (const iface of interfaces[name]!) {
+    if (iface.family === "IPv4" && !iface.internal) {
+      console.log("IP เครื่อง:", iface.address);
+    }
+  }
+}
 dotenv.config();
 const app = express();
 const port = 3000;
