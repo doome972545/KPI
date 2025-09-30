@@ -1,11 +1,10 @@
 {
   "name": "kpis-backend",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "build": "tsc",
-    "vercel-build": "npm install --legacy-peer-deps && npm run build",
     "start": "node dist/server.js"
   },
   "keywords": [],
@@ -14,7 +13,7 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^6.16.2",
-    "@types/node": "^24.6.0",
+    "@types/cors": "^2.8.19",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
