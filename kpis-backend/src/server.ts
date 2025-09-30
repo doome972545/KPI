@@ -10,6 +10,7 @@ import swaggerSpec from "./config/swagger";
 import YAML from "yamljs";
 import { initialData } from "./config/initialData";
 import os from "os";
+import path from "path";
 
 const interfaces = os.networkInterfaces();
 
@@ -42,7 +43,7 @@ app.use(API_VERSION, authController);
 app.use(API_VERSION, userController);
 app.use(API_VERSION, kpiController);
 
-const swaggerDocument = YAML.load("./docs/swagger.yaml");
+const swaggerDocument = YAML.load(path.join(__dirname, "docs", "swagger.yaml"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // เสริม: endpoint JSON
 app.get("/api-docs.json", (req, res) => {
