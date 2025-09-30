@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "build": "tsc",
-    "vercel-build": "npm install --legacy-peer-deps && npm run build",
+    "vercel-build": "npm install && npm run build",
     "start": "node dist/server.js"
   },
   "keywords": [],
