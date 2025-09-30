@@ -1,0 +1,1 @@
+<template>Reports.vue</template>

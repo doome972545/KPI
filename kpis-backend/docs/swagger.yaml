@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Kpi Api
+  version: 1.0.0
+
+paths:
+  /api/v1/auth/login:
+    post:
+      summary: Login user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Login success
+
+  /api/v1/auth/register:
+    post:
+      summary: Register user
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        201:
+          description: Register success
+
+  /api/v1/auth/logout:
+    post:
+      summary: Logout user
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Logout success
+
+  /api/v1/auth:
+    get:
+      summary: Get user profile
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Return user info
+  /api/v1/users:
+    get:
+      summary: Get users
+      tags:
+        - Users
+      responses:
+        200:
+          description: Test
+  /api/v1/roles:
+    get:
+      summary: Get All Roles
+      tags:
+        - Users
+      responses:
+        200:
+          description: Test
+  /api/v1/register/admin:
+    post:
+      summary: Register User by Admin and Add Role
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: number
+      responses:
+        201:
+          description: Register success
+  /api/v1/users/role:
+    post:
+      summary: Change Role User By Admin
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: number
+                role:
+                  type: number
+      responses:
+        200:
+          description: Change Role success

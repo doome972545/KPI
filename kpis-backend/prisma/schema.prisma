@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  roleId       Int?      @map("role_id")
+  role         Role?     @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  kpis         Kpi[]     @relation("UserKpis")
+  kpiUpdates   KpiUpdate[] @relation("UserKpiUpdates")
+  KpiNotification KpiNotification[]
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at")
+}
+
+model Role {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  users  User[]
+}
+
+model Kpi {
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String?
+  targetValue  Decimal     @map("target_value")
+  actualValue  Decimal     @default(0.00) @map("actual_value")
+  status       String?     
+  assignedUser Int?        @map("assigned_user")
+  goalType     GoalType
+  user         User?       @relation("UserKpis", fields: [assignedUser], references: [id], onDelete: Cascade)
+  startDate    DateTime    @map("start_date")
+  endDate      DateTime    @map("end_date")
+  updates      KpiUpdate[]
+  notifications  KpiNotification[]
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @default(now()) @updatedAt @map("updated_at")
+}
+
+model KpiUpdate {
+  id           Int       @id @default(autoincrement())
+  kpiId        Int       @map("kpi_id")
+  kpi          Kpi       @relation(fields: [kpiId], references: [id], onDelete: Cascade)
+  updatedValue Decimal   @map("updated_value")
+  comment      String?
+  updatedBy    Int?      @map("updated_by")
+  user         User?     @relation("UserKpiUpdates", fields: [updatedBy], references: [id], onDelete: SetNull)
+  updatedAt    DateTime  @default(now()) @map("updated_at")
+}
+
+model KpiNotification {
+  id     Int    @id @default(autoincrement())
+  userId Int    @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kpiId  Int
+  kpi    Kpi    @relation(fields: [kpiId], references: [id], onDelete: Cascade)
+}
+
+enum GoalType {
+  increase
+  decrease
+}

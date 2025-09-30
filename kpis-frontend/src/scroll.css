@@ -1,0 +1,79 @@
+/* ==== Nice Scrollbar (Light/Dark + Firefox) ==== */
+:root {
+  --sb-size: 8px;
+  --sb-radius: 9999px;
+  --sb-track: rgba(0, 0, 0, 0.06);
+  --sb-thumb: rgba(203, 204, 244, 0.65); /* indigo-500 */
+  --sb-thumb-hover: rgba(199, 199, 199, 0.85); /* indigo-400 */
+  --sb-thumb-active: rgba(215, 214, 235, 0.95); /* indigo-600 */
+  --sb-thumb-border: rgba(255, 255, 255, 0.6); /* ให้ดูเป็น glass */
+}
+
+/* รองรับ Dark mode (ทั้ง class .dark ของ Tailwind และ data-theme) */
+.dark,
+[data-theme="dark"] {
+  --sb-track: rgba(255, 255, 255, 0.06);
+  --sb-thumb: rgba(129, 140, 248, 0.55);
+  --sb-thumb-hover: rgba(165, 180, 252, 0.8);
+  --sb-thumb-active: rgba(99, 102, 241, 0.95);
+  --sb-thumb-border: rgba(0, 0, 0, 0.35);
+}
+
+/* ใช้กับทุกเบราว์เซอร์ (Firefox) */
+/* .nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+  scrollbar-gutter: stable both-edges; /* กัน layout กระดิกเวลาโชว์สกอร์บาร์ */
+/* overscroll-behavior: contain; */
+/* } */
+/* */
+
+/* WebKit / Chromium */
+.nice-scroll::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+.nice-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--sb-radius);
+}
+
+.nice-scroll:hover::-webkit-scrollbar-track {
+  background: var(--sb-track); /* โชว์แทร็กเมื่อ hover คอนเทนเนอร์ */
+}
+
+.nice-scroll::-webkit-scrollbar-thumb {
+  border-radius: var(--sb-radius);
+  background: linear-gradient(180deg, var(--sb-thumb), var(--sb-thumb-hover));
+  /* ทำให้หัวแม่ดู “หนา” แบบแก้ว */
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  opacity: 0.9;
+}
+
+.nice-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--sb-thumb-hover),
+    var(--sb-thumb-active)
+  );
+  opacity: 1;
+}
+
+.nice-scroll::-webkit-scrollbar-thumb:active {
+  background: var(--sb-thumb-active);
+}
+
+.nice-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ตัวเลือก: ปรับความหนาได้ง่ายด้วย utility */
+.nice-scroll--thin {
+  --sb-size: 6px;
+}
+.nice-scroll--thick {
+  --sb-size: 10px;
+}
