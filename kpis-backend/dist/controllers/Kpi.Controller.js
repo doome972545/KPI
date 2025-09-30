@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteKpi = exports.updateValueKpi = exports.updateKpis = exports.getAllKpis = exports.createKpis = void 0;
+exports.getAllDashboardKpis = exports.deleteKpi = exports.updateValueKpi = exports.updateKpis = exports.getAllKpis = exports.createKpis = void 0;
 const client_1 = require("@prisma/client");
 const mailer_1 = require("../utils/mailer");
 const prisma = new client_1.PrismaClient();
@@ -228,3 +228,61 @@ const deleteKpi = async (req, res) => {
     }
 };
 exports.deleteKpi = deleteKpi;
+const getAllDashboardKpis = async (req, res) => {
+    try {
+        const kpis = await prisma.kpi.findMany({
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                    },
+                },
+            },
+        });
+        const users = await prisma.user.findMany({
+            where: {
+                role: { name: "User" },
+            },
+            select: {
+                id: true,
+                email: true,
+                username: true,
+                roleId: true,
+                role: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        const kpiUpdate = await prisma.kpiUpdate.findMany({
+            include: {
+                kpi: {
+                    select: {
+                        id: true,
+                        title: true,
+                        targetValue: true,
+                        goalType: true,
+                        status: true,
+                    },
+                },
+                user: {
+                    select: {
+                        id: true,
+                        email: true,
+                    },
+                },
+            },
+        });
+        return res.status(200).json({ kpis, users, kpiUpdate });
+    }
+    catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+exports.getAllDashboardKpis = getAllDashboardKpis;

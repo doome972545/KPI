@@ -12,4 +12,5 @@ router.get("/kpis", (0, auth_1.authenticateJWT)([auth_1.RoleName.ADMIN, auth_1.R
 router.put("/kpis/:id", (0, auth_1.authenticateJWT)([auth_1.RoleName.ADMIN, auth_1.RoleName.USER, auth_1.RoleName.SUPERADMIN]), Kpi_Controller_1.updateKpis);
 router.post("/kpis/update-value", (0, auth_1.authenticateJWT)([auth_1.RoleName.USER]), Kpi_Controller_1.updateValueKpi);
 router.delete("/kpis/:id", (0, auth_1.authenticateJWT)([auth_1.RoleName.ADMIN, auth_1.RoleName.USER, auth_1.RoleName.SUPERADMIN]), Kpi_Controller_1.deleteKpi);
+router.get("/kpis/dashboard", (0, auth_1.authenticateJWT)([auth_1.RoleName.ADMIN, auth_1.RoleName.USER, auth_1.RoleName.SUPERADMIN]), Kpi_Controller_1.getAllDashboardKpis);
 exports.default = router;
