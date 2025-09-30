@@ -43,7 +43,8 @@ app.use(API_VERSION, authController);
 app.use(API_VERSION, userController);
 app.use(API_VERSION, kpiController);
 
-const swaggerDocument = YAML.load(path.join(__dirname, "docs", "swagger.yaml"));
+const swaggerPath = path.join(__dirname, "docs", "swagger.yaml");
+const swaggerDocument = YAML.load(swaggerPath);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // เสริม: endpoint JSON
 app.get("/api-docs.json", (req, res) => {
