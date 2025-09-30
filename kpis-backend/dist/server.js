@@ -13,12 +13,21 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
 const initialData_1 = require("./config/initialData");
+const os_1 = __importDefault(require("os"));
+const interfaces = os_1.default.networkInterfaces();
+for (const name in interfaces) {
+    for (const iface of interfaces[name]) {
+        if (iface.family === "IPv4" && !iface.internal) {
+            console.log("IP เครื่อง:", iface.address);
+        }
+    }
+}
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: "http://localhost:5173", // ❌ ไม่ใช้ "*"
+    origin: "*", // ❌ ไม่ใช้ "*"
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true, // ✅ ต้องมีถ้าใช้ cookies
     exposedHeaders: ["Authorization"], // optional

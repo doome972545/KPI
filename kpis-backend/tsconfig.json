@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx", // ถ้า React 17+ หรือ "react-jsxdev" สำหรับ dev
-    "target": "ESNext",
-    "module": "commonjs",
-    "esModuleInterop": true,
+    "target": "ES2020",
+    "module": "CommonJS",
     "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "types": ["node"]
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

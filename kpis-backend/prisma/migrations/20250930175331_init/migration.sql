@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "public"."GoalType" AS ENUM ('increase', 'decrease');
+
 -- CreateTable
 CREATE TABLE "public"."User" (
     "id" SERIAL NOT NULL,
@@ -28,6 +31,7 @@ CREATE TABLE "public"."Kpi" (
     "actual_value" DECIMAL(65,30) NOT NULL DEFAULT 0.00,
     "status" TEXT,
     "assigned_user" INTEGER,
+    "goalType" "public"."GoalType" NOT NULL,
     "start_date" TIMESTAMP(3) NOT NULL,
     "end_date" TIMESTAMP(3) NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -46,6 +50,15 @@ CREATE TABLE "public"."KpiUpdate" (
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "KpiUpdate_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."KpiNotification" (
+    "id" SERIAL NOT NULL,
+    "user_id" INTEGER NOT NULL,
+    "kpiId" INTEGER NOT NULL,
+
+    CONSTRAINT "KpiNotification_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -68,3 +81,9 @@ ALTER TABLE "public"."KpiUpdate" ADD CONSTRAINT "KpiUpdate_kpi_id_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "public"."KpiUpdate" ADD CONSTRAINT "KpiUpdate_updated_by_fkey" FOREIGN KEY ("updated_by") REFERENCES "public"."User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."KpiNotification" ADD CONSTRAINT "KpiNotification_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."KpiNotification" ADD CONSTRAINT "KpiNotification_kpiId_fkey" FOREIGN KEY ("kpiId") REFERENCES "public"."Kpi"("id") ON DELETE CASCADE ON UPDATE CASCADE;
