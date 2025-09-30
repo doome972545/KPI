@@ -27,7 +27,7 @@ const port = 3000;
 app.use(express.json());
 app.use(
   cors({
-    origin: "*", // ❌ ไม่ใช้ "*"
+    origin: "http://localhost:5173", // ❌ ไม่ใช้ "*"
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true, // ✅ ต้องมีถ้าใช้ cookies
     exposedHeaders: ["Authorization"], // optional
